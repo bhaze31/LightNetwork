@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 public final class LightNetworkHandler {
-    static let shared = LightNetworkInterface()
+    public static let shared = LightNetworkInterface()
     
     private init() {}
 }
