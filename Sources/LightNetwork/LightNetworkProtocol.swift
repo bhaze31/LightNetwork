@@ -73,6 +73,8 @@ public extension LightNetworkInterfaceProtocol {
         request.httpMethod = method.rawValue
         request.httpBody = serializeBody(body: body)
         
+        setHeaders(for: &request, headers: headers)
+        
         return request
     }
     
