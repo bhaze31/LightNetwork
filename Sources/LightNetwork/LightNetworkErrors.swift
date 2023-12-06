@@ -15,7 +15,7 @@ public enum LightNetworkError: Error {
     case UnknownRequestError(data: Data, response: URLResponse)
     case UnknownError
     
-    var errorDescription: String {
+    public var errorDescription: String {
         switch self {
             case .InvalidResponse:
                 "Error handling response"
