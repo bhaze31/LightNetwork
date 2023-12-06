@@ -29,24 +29,24 @@ public extension LightNetworkInterfaceProtocol {
             let (data, response) = try await URLSession.shared.data(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse else {
-                return (nil, LightNetworkError.InvalidResponse)
+                return (nil, LightNetworkError.InvalidResponse(data: data, response: response))
             }
 
             guard httpResponse.statusCode < 400 && httpResponse.statusCode >= 200 else {
                 if httpResponse.statusCode >= 400 && httpResponse.statusCode < 500 {
-                    return (nil, LightNetworkError.ClientError(code: httpResponse.statusCode))
+                    return (nil, LightNetworkError.ClientError(data: data, response: response))
                 }
                 
                 if httpResponse.statusCode >= 500 {
-                    return (nil, LightNetworkError.ServerError(code: httpResponse.statusCode))
+                    return (nil, LightNetworkError.ServerError(data: data, response: response))
                 }
                 
                 
-                return (nil, LightNetworkError.UnknownRequestError(code: httpResponse.statusCode))
+                return (nil, LightNetworkError.UnknownRequestError(data: data, response: response))
             }
 
             guard let decoded = try? JSONDecoder().decode(format, from: data) else {
-                return (nil, LightNetworkError.NonDecodable)
+                return (nil, LightNetworkError.NonDecodable(data: data, response: response))
             }
 
             return (decoded, nil)
